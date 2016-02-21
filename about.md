@@ -1,15 +1,37 @@
 ---
 layout: page
 title: About
-permalink: /about/
+permalink: /about
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+I've been a hacker in some form or another for my entire life, but here are some things people have paid me to work on.
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
+### Automated Insights
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+#### Software Engineer (June 2015 - Present)
+
+I joined Automated Insights in 2015 to help build Wordsmith, an app that makes Natural Language Generation accessible to anyone that can create a spreadsheet. I played a key role in the design and implementation of both the application and infrastructure. It has been featured on sites like Smithsonian Magazine, Wired, The Next Web, and Al Jazeera.
+
+---
+
+### Validic
+
+#### Software Engineer (March 2015 - June 2015)
+
+Validic provides a single API that allows healthcare companies to access data from hundreds of health devices and apps. During my time there, I helped improve test coverage, logging, documentation, and development practices.
+
+---
+
+### Tilt 365
+
+#### Full Stack Developer (March 2013- March 2015)
+
+An alternative to traditional 360 assessments, Tilt 365 provides metrics for strengths such as focus, creativity, trust, and inspiration. I was responsible for the maintenance and development of the entire product after a mentorship by its original developers at Relevance (now Cognitect). Used internally by companies like Facebook, Clif Bar, and Verizon.
+
+---
+
+### Duke University
+
+#### Software Developer (March 2012 - March 2013)
+
+I worked on several NIH funded projects at Duke. I wrote software that was used to collect data in the field and securely transfer it back to the states for analysis. I deployed systems to study sites in Ethiopia, Kenya, Cambodia, India, and Tanzania.
