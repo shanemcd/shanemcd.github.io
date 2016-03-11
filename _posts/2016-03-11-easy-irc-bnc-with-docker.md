@@ -58,7 +58,7 @@ The first time we start the server, the configuration will be written to `~/.znc
 
 Now we need to restart the server by grabbing the container id from `docker ps` and running `docker restart CONTAINER_ID`.
 
-You should now be able to visit `https://irc.example.com:36667` and configure ZNC. See the [`docker-inc`](https://github.com/jimeh/docker-znc) readme for the default credentials.
+You should now be able to visit `https://irc.example.com:36667` and configure ZNC. See the [`docker-znc`](https://github.com/jimeh/docker-znc) readme for the default credentials.
 
 You are now well on your way to having a fully functional and secure BNC. You’ll just need to configure your network(s), and update your IRC client with your ZNC credentials.
 
