@@ -31,7 +31,7 @@ I won’t cover the download / installation of these tools, because you should a
 
 #### SSL/TLS
 
-We want our connection to our BNC to be secure, so we’re going to Let’s Encrypt, which is a free way to obtain signed certificates.
+We want our connection to our BNC to be secure, so we’re going to use Let’s Encrypt, which is a free way to obtain signed certificates.
 
 Once you have installed Let’s Encrypt, generate your certificates:
 
