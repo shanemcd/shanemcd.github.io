@@ -8,7 +8,7 @@ I've been hanging out on the Freenode and Mozilla IRC networks recently. I forgo
 
 In the past I’ve typically been a casual IRC user. Occasionally popping in to ask the random programming question, but it was never a primary method of communication for me.
 
-I really started to view it differently when I joined the `#rust-beginners` channel on the Mozilla network. I had struggled with a simple problem for several hours one Saturday morning, and out of desperation I posted a question accompanied by a gist. Someone answered me within 2 minutes, and I was on my way. This was awesome, and I wanted to be a part of it.
+I really started to view it differently when I joined the `#rust-beginners` channel on the Mozilla network. I had struggled with a simple problem for several hours one Saturday morning, and out of desperation I posted a question accompanied by a gist. Someone answered me within 2 minutes, and I was on my way. This was awesome, and it got me excited.
 
 Fast forward a couple months, and I’m slowly getting acclimated to life with IRC.
 
