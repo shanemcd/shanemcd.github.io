@@ -10,7 +10,7 @@ In the past I’ve typically been a casual IRC user. Occasionally popping in to 
 
 I really started to view it differently when I joined the `#rust-beginners` channel on the Mozilla network. I had struggled with a simple problem for several hours one Saturday morning, and out of desperation I posted a question accompanied by a gist. Someone answered me within 2 minutes, and I was on my way. This was awesome, and it got me excited.
 
-Fast forward a couple months, and I’m slowly getting acclimated to life with IRC.
+Now a couple months later, I am regularly signed in to IRC and participating in conversations with all types of people and communities. I haven't had this much fun on the internet in years, but it has entailed a bit of a learning curve.
 
 Naturally, one of the first challenges I experienced with IRC was the lack of "history". Yes, you can find logs for many channels on sites like [BotBot](https://botbot.me), but you're not going to find everything.
 
