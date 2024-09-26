@@ -1,0 +1,49 @@
+---
+name: preview
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency: preview-${{ github.ref }}
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+env:
+  CONTAINER_RUNTIME: docker
+  RUN_CMD: >-
+    QUARTZ_BUILD_OPTS='-o /repo/public' make -f /repo/Makefile public
+
+jobs:
+  preview:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+
+      - name: Build site
+        if: github.event.action != 'closed'
+        run: make run
+
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: public
+          custom-url: wat.shanemcd.com
+
+      - name: Update preview comment with note about being patient
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview
+          append: true
+          message: |
+            > [!IMPORTANT]
+            > The link above will not work until the Pages deployment is complete. You can find this under [Actions -> pages-build-deployment](https://github.com/andyettanotherorg/shanemcd.github.io/actions/workflows/pages/pages-build-deployment).

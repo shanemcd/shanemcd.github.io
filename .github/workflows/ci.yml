@@ -1,0 +1,78 @@
+---
+name: tox
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  FORCE_COLOR: 1
+  PY_COLORS: 1
+  # seeing what appear to be selinux problems w/ podman in the ubuntu runner as of july 12 2024
+  CONTAINER_RUNTIME: docker
+
+jobs:
+  tox:
+    name: ${{ matrix.name }}
+    defaults:
+      run:
+        shell: "bash"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - environment: lint
+            name: lint
+
+          - environment: quartz
+            name: quartz
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set pre-commit cache
+        if: ${{ matrix.name == 'lint' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pre-commit
+          key: pre-commit-lint-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          cache: pip
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install tox
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade "tox>=4.0.0"
+
+      - name: tox -e ${{ matrix.environment }}
+        run: python3 -m tox -e ${{ matrix.environment }}
+
+      - name: Report failure if git reports dirty status
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            # shellcheck disable=SC2016
+            echo -n '::error file=git-status::'
+            printf '### Failed as git reported modified and/or untracked files\n```\n%s\n```\n' "$(git status -s)" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 99
+          fi
+
+  check:
+    if: always()
+    needs:
+      - tox
+    runs-on: ubuntu-latest
+    steps:
+      - run: >-
+          python -c "assert set([
+          '${{ needs.tox.result }}',
+          ]) == {'success'}"
