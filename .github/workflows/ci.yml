@@ -65,7 +65,21 @@ jobs:
             printf '### Failed as git reported modified and/or untracked files\n```\n%s\n```\n' "$(git status -s)" | tee -a "$GITHUB_STEP_SUMMARY"
             exit 99
           fi
+  preview:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
+      - name: Build site
+        if: github.event.action != 'closed'
+        run: |
+          CONTAINER_RUNTIME=docker RUN_CMD="QUARTZ_BUILD_OPTS='-o /repo/public' make -f /repo/Makefile public" make run
+
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./public/
   check:
     if: always()
     needs:
@@ -76,18 +90,3 @@ jobs:
           python -c "assert set([
           '${{ needs.tox.result }}',
           ]) == {'success'}"
-  preview:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build site
-        if: github.event.action != 'closed' # You might want to skip the build if the PR has been closed
-        run: |
-          CONTAINER_RUNTIME=docker RUN_CMD="QUARTZ_BUILD_OPTS='-o /repo/public' make -f /repo/Makefile public" make run
-
-      - name: Deploy preview
-        uses: rossjrw/pr-preview-action@v1
-        with:
-          source-dir: ./public/
