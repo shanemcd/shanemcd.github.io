@@ -27,7 +27,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Darkmode(),
     Component.DesktopOnly(
       Component.RecentNotes({
-        title: "Recent Writing",
+        title: "Recent Posts",
         limit: 4,
         filter: (f) =>
           f.slug!.startsWith("posts/") && f.slug! !== "posts/index" && !f.frontmatter?.noindex,
