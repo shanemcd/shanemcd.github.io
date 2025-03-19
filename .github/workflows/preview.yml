@@ -30,6 +30,9 @@ jobs:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
           fetch-depth: 0
 
+      - run: |
+          git log
+
       - name: Build site
         if: github.event.action != 'closed'
         run: make run
