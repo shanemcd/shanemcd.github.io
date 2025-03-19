@@ -37,7 +37,6 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: public
-          custom-url: wat.shanemcd.com
 
       - name: Update preview comment with note about being patient
         uses: marocchino/sticky-pull-request-comment@v2
