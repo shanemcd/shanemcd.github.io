@@ -1,6 +1,6 @@
 FROM registry.fedoraproject.org/fedora
 
-ARG QUARTZ_REF=v4.2.3
+ARG QUARTZ_REF=eccad3da5d7b84b0f78a85b357efedef8c0127fc
 
 USER root
 
