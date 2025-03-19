@@ -5,9 +5,10 @@ import * as Component from "./quartz/components";
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
+  afterBody: [],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/shanemcd"
+      GitHub: "https://github.com/shanemcd",
     },
   }),
 };
@@ -30,7 +31,9 @@ export const defaultContentPageLayout: PageLayout = {
         title: "Recent Posts",
         limit: 4,
         filter: (f) =>
-          f.slug!.startsWith("posts/") && f.slug! !== "posts/index" && !f.frontmatter?.noindex,
+          f.slug!.startsWith("posts/") &&
+          f.slug! !== "posts/index" &&
+          !f.frontmatter?.noindex,
         linkToMore: "posts/" as SimpleSlug,
       }),
     ),

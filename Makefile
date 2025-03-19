@@ -23,7 +23,7 @@ PWD := $(shell pwd)
 IMAGE_ID_FILE := .generated/.image-id
 
 define COMMON_MOUNTS
--v $(MAKEFILE_DIR):/repo:Z -v "$(MAKEFILE_DIR)/content:/opt/quartz/content:Z"
+-v $(MAKEFILE_DIR):/repo:Z
 endef
 
 .DEFAULT_GOAL := scratchpad
@@ -55,7 +55,7 @@ $(IMAGE_ID_FILE): .generated Containerfile quartz.config.ts quartz.layout.ts
 	$(CONTAINER_RUNTIME) inspect --format='{{.Id}}' $(SCRATCHPAD_IMAGE_NAME):$(IMAGE_TAG) > $(IMAGE_ID_FILE)
 
 public:
-	npx quartz build $(QUARTZ_BUILD_OPTS)
+	npx quartz build $(QUARTZ_BUILD_OPTS) --directory=/repo/content
 
 .PHONY: clean
 clean:
