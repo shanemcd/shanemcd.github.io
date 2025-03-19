@@ -29,6 +29,11 @@ jobs:
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
+      - name: Fetch base branch
+        run: |
+          BASE_BRANCH=${{ github.event.pull_request.base.ref }}
+          git fetch origin $BASE_BRANCH
+
       - name: Build site
         if: github.event.action != 'closed'
         run: make run
