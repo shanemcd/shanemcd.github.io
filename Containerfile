@@ -10,6 +10,7 @@ RUN dnf install -y git make nodejs && \
     npm install -g npm@latest && \
     dnf remove -y nodejs
 
+RUN git config --global --add safe.directory /repo
 RUN cd /opt && git clone https://github.com/jackyzha0/quartz.git && \
     cd quartz && git checkout ${QUARTZ_REF} && \
     npm ci
