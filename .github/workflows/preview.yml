@@ -28,11 +28,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
-
-      - name: Fetch base branch
-        run: |
-          BASE_BRANCH=${{ github.event.pull_request.base.ref }}
-          git fetch origin $BASE_BRANCH
+          fetch-depth: 0
 
       - name: Build site
         if: github.event.action != 'closed'
