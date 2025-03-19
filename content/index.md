@@ -1,8 +1,8 @@
 ---
-title: Welcome 👋 
+title: Welcome 👋
 ---
 
-Hello. My name is [Shane McDonald](https://www.linkedin.com/in/theshanemcd/).  I
+Hello. My name is [Shane McDonald](https://www.linkedin.com/in/theshanemcd/). I
 live in Jersey City NJ with my lovely wife Chao, along with our cat Milla and
 our dog Rodger. I am currently employed by [Red Hat](https://www.redhat.com) as
 one of the lead engineers for [Ansible](https://github.com/ansible).
