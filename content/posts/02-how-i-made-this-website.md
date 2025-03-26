@@ -7,7 +7,7 @@ In my last post (which also happened to be [[01-my-first-post|My first post]]) I
 
 ## Markdown, please
 
-As I've gotten older, I've begun to care more about retaining full control of my data. I've also developed more of a propensity towards simplicity, and that involves searching out things that I'm able to understand and easily navigate. tools that just get out of my way. At this point, writing in Markdown has become second nature. I find myself using it even I don't mean to.
+As I've gotten older, I've begun to care more about retaining full control of my data. I've also developed more of a propensity towards simplicity, and that involves searching out things that I'm able to understand and easily navigate. Tools that just get out of my way. At this point, writing in Markdown has become second nature. I find myself using it even I don't mean to.
 
 ### Obsidian
 
