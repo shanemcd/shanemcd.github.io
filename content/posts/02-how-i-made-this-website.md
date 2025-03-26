@@ -174,7 +174,7 @@ I might be lazy, but I also love finding a good problem to over-engineer. I had 
 
 Unfortunately GitHub Pages does not natively support previewing changes. It seems like that will come at [some point](https://github.com/actions/deploy-pages/issues/337), but it's been almost [5 years](https://github.com/orgs/community/discussions/7730) and there's still ETA. Luckily the [Deploy PR Preview action](https://github.com/marketplace/actions/deploy-pr-preview) will do just fine for now.
 
-Here is how I'm using it. The only thing I've changed is an additional invocation of `marocchino/sticky-pull-request-comment`, which I found `rossjrw/pr-preview-action` - I update the comment to add a reminder that the link will only work once the Action completes.
+Here is how I'm using it. The only thing I've changed is an additional invocation of `marocchino/sticky-pull-request-comment`, which I found `rossjrw/pr-preview-action` uses under the hood. I update the comment it posts to add a little reminder that the link will only work once the Action completes.
 
 ```yaml
 ---
