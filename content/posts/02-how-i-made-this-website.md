@@ -3,7 +3,7 @@ title: How I made this website
 modified: 03-25-2025
 ---
 
-In my last post (which also happened to be [[2025-03-22-my-first-post|My first post]]) I provided a little bit of context as to _why_ I made this website. Now that I've gotten that over with, I'm going to continue on my merry way and pontificate on random and mostly technical things that I have been occupying my time. I figured a good place to start would be to capture _how_ I made this website.
+In my last post (which also happened to be [[01-my-first-post|My first post]]) I provided a little bit of context as to _why_ I made this website. Now that I've gotten that over with, I'm going to continue on my merry way and pontificate on random and mostly technical things that I have been occupying my time. I figured a good place to start would be to capture _how_ I made this website.
 
 ## Markdown, please
 
