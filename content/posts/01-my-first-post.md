@@ -3,11 +3,11 @@ title: My first post
 modified: 03-22-2025
 ---
 
-## Why I made this website 
+## Why I made this website
 
 It's been a while since I had the time or cared enough to maintain a website for
 myself. As a software engineer, I found that over time I gradually lost interest
-in using a computer outside of work. 
+in using a computer outside of work.
 
 That made me sad, because I am truly grateful to be paid to do something that I
 had at one point spent countless hours doing in my free time. After enough time
@@ -20,7 +20,7 @@ first-encounters. Especially so with programming. The amount of information
 required to begin understanding how software interacts with underlying physical
 hardware is more than enough to keep you busy for multiple lifetimes. But people
 tend to achieve a level of proficiency that allows them to carry out the task at
-hand and then stop learning. 
+hand and then stop learning.
 
 This is understandable - there's only so many hours in the day and there are
 other things in life to care about. It's largely what happened to me. Once I
@@ -30,7 +30,7 @@ tasks at hand at work.
 
 Writing code for a living was enough to keep me mentally stimulated for more
 than a decade, but once I started taking on more leadership responsibilities it
-didn't take long before I felt my skills begin to atrophy. 
+didn't take long before I felt my skills begin to atrophy.
 
 This is something I have heard people more senior than myself talk about my
 entire career, but when it started happening to me it felt terrifying. If I lost

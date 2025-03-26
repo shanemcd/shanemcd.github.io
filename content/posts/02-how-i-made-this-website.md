@@ -2,10 +2,13 @@
 title: How I made this website
 modified: 03-25-2025
 ---
-In my last post (which also happened to be [[2025-03-22-my-first-post|My first post]]) I provided a little bit of context as to *why* I made this website. Now that I've gotten that over with, I'm going to continue on my merry way and pontificate on random and mostly technical things that I have been occupying my time. I figured a good place to start would be to capture *how* I made this website.
+
+In my last post (which also happened to be [[2025-03-22-my-first-post|My first post]]) I provided a little bit of context as to _why_ I made this website. Now that I've gotten that over with, I'm going to continue on my merry way and pontificate on random and mostly technical things that I have been occupying my time. I figured a good place to start would be to capture _how_ I made this website.
+
 ## Markdown, please
 
 As I've gotten older, I've begun to care more about retaining full control of my data. I've also developed more of a propensity towards simplicity, and that involves searching out things that I'm able to understand and easily navigate. tools that just get out of my way. At this point, writing in Markdown has become second nature. I find myself using it even I don't mean to.
+
 ### Obsidian
 
 I think most developers have heard of [Obsidian](https://obsidian.md/) by now - an application for writing and managing content in Markdown. Anyone who has written a lot of Markdown-based content will know that it can become unwieldy to manage over time, especially when linking between documents and using some more of its advanced features like tables. Obsidian makes these things easy, with real-time previews and the ability to automatically update links when you move things around.
@@ -17,6 +20,7 @@ While Obsidian has its own (paid) option to publish to a website hosted on their
 ## Running Quartz locally
 
 As much as I love Quartz, I did not love how their documentation currently instructs users to clone the repository locally, install NodeJS, and store content within a fork of the Quartz project.
+
 ### Custom tooling
 
 To prevent installing Node on my computer, I put together a custom Containerfile that installs the necessary dependencies and clones the Quartz repo:
@@ -94,7 +98,7 @@ Checking current image SHA...
 Image is up to date.
 npx quartz build --serve --port=6006 --directory=/repo/content
 
- Quartz v4.5.0 
+ Quartz v4.5.0
 
 Cleaned output directory `public` in 2ms
 Found 4 input files from `/repo/content` in 5ms
@@ -106,6 +110,7 @@ Started a Quartz server listening at http://localhost:6006
 ```
 
 This handles building (and rebuilding) the container image, starting serving Quartz, mounting in the site content, and mapping ports for the web server and live-reload websocket.
+
 ## Deploying via GitHub Pages
 
 Most people are familiar with using GitHub Pages to host a Jekyll website, but it is also possible to serve up a pre-built HTML website that has been pushed to a branch. To automate this process I threw together this GitHub Action:
