@@ -233,7 +233,7 @@ jobs:
 
 Which looks like this:
 
-![[../_assets/post-preview.png]]
+![[assets/post-preview.png]]
 
 This might be overkill, but it lets me test things out without iterating directly on my `main` branch and helps for cases where I might not have access to Obsidian or the ability to test a site build locally.
 
