@@ -15,7 +15,7 @@ I think most developers have heard of [Obsidian](https://obsidian.md/) by now - 
 
 ### Quartz
 
-While Obsidian has its own (paid) option to publish to a website hosted on their servers, it is after all just a directory full of files. While there are several static website generators out there that support Markdown, none are quite as polished as [Quartz](https://quartz.jzhao.xyz/)- which also happens to be offer [Obsidian compatible](https://quartz.jzhao.xyz/features/Obsidian-compatibility) out of the box. If you haven't seen Quartz before, I could not recommend it enough - it's fast, has an extremely powerful search feature, live reloading, and is pretty much infinitely flexible if you're willing to spend a little time learning TypeScript.
+While Obsidian has its own (paid) option to publish to a website hosted on their servers, it is after all just a directory full of files. While there are several static website generators out there that support Markdown, none are quite as polished as [Quartz](https://quartz.jzhao.xyz/)- which also happens to be [Obsidian compatible](https://quartz.jzhao.xyz/features/Obsidian-compatibility) out of the box. If you haven't seen Quartz before, I could not recommend it enough - it's fast, has an extremely powerful search feature, live reloading, and is pretty much infinitely flexible if you're willing to spend a little time learning TypeScript.
 
 ## Running Quartz locally
 
