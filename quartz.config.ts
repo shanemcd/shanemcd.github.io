@@ -8,14 +8,12 @@ import * as Plugin from "./quartz/plugins";
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "📓 Shane's Scratchpad...",
+    pageTitle: "🌎 Shane's World",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "plausible",
-    },
+    analytics: {},
     locale: "en-US",
-    baseUrl: "pages.shanemcd.com",
+    baseUrl: "shanemcd.com",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
@@ -84,6 +82,7 @@ const config: QuartzConfig = {
       Plugin.Assets(),
       Plugin.Static(),
       Plugin.NotFoundPage(),
+      Plugin.Favicon()
     ],
   },
 };

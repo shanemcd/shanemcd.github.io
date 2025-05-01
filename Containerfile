@@ -1,6 +1,6 @@
 FROM registry.fedoraproject.org/fedora
 
-ARG QUARTZ_REF=eccad3da5d7b84b0f78a85b357efedef8c0127fc
+ARG QUARTZ_REF=adf442036b244dfafea6287bf69c22f4eb133b79
 
 USER root
 
@@ -17,5 +17,7 @@ RUN cd /opt && git clone https://github.com/jackyzha0/quartz.git && \
 
 COPY quartz.config.ts /opt/quartz/
 COPY quartz.layout.ts /opt/quartz/
+
+COPY icon.png /opt/quartz/quartz/static/icon.png
 
 WORKDIR /opt/quartz
