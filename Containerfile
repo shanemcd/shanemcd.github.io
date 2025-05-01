@@ -4,7 +4,7 @@ ARG QUARTZ_REF=eccad3da5d7b84b0f78a85b357efedef8c0127fc
 
 USER root
 
-RUN dnf install -y git make nodejs && \
+RUN dnf install -y git make nodejs awk && \
     npm install -g n && \
     n lts && \
     npm install -g npm@latest && \
