@@ -6,6 +6,12 @@
       <description>Last 10 notes on 📓 Shane&#039;s Scratchpad...</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Getting Tailscale to work on my JetKVM</title>
+    <link>https://pages.shanemcd.com/posts/04-jetkvm-tailscale</link>
+    <guid>https://pages.shanemcd.com/posts/04-jetkvm-tailscale</guid>
+    <description>Earlier this week I got my JetKVM in the mail.</description>
+    <pubDate>Thu, 01 May 2025 03:35:31 GMT</pubDate>
+  </item><item>
     <title>Running Ollama under Rootless Podman with Quadlet</title>
     <link>https://pages.shanemcd.com/posts/03-ollama-rootless-podman-quadlet</link>
     <guid>https://pages.shanemcd.com/posts/03-ollama-rootless-podman-quadlet</guid>
