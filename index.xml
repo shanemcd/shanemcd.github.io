@@ -6,6 +6,12 @@
       <description>Last 10 notes on 🌎 Shane&#039;s World</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Getting root access in a pod running under kind on podman</title>
+    <link>https://shanemcd.com/posts/05-kind-podman-exec-as-root</link>
+    <guid>https://shanemcd.com/posts/05-kind-podman-exec-as-root</guid>
+    <description>I am using a development environment that utilizes kind running under rootless Podman.</description>
+    <pubDate>Sat, 03 May 2025 03:41:49 GMT</pubDate>
+  </item><item>
     <title>Getting Tailscale to work on my JetKVM</title>
     <link>https://shanemcd.com/posts/04-jetkvm-tailscale</link>
     <guid>https://shanemcd.com/posts/04-jetkvm-tailscale</guid>
