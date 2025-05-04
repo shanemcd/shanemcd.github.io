@@ -25,13 +25,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
+        if: github.event.action != 'closed'
         uses: actions/checkout@v3
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
           fetch-depth: 0
-
-      - run: |
-          git log
 
       - name: Build site
         if: github.event.action != 'closed'
@@ -43,6 +41,7 @@ jobs:
           source-dir: public
 
       - name: Update preview comment with note about being patient
+        if: github.event.action != 'closed'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: pr-preview
