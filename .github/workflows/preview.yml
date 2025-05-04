@@ -24,11 +24,19 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout forked PR code
         if: github.event.action != 'closed'
         uses: actions/checkout@v3
         with:
-          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Checkout base branch (PR is closed)
+        if: github.event.action == 'closed'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
           fetch-depth: 0
 
       - name: Build site
