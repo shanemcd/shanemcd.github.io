@@ -1,11 +1,14 @@
 ---
 title: Getting Tailscale to work on my JetKVM
+updated: 05-01-2025
 ---
+
 Earlier this week I got my [JetKVM](https://jetkvm.com) in the mail. There's plenty of posts out there about how awesome it is, so I won't bother to write another post reiterating that. Well, maybe briefly: it is in fact awesome. You should by one.
 
 ## Remotely accessing my JetKVM
 
-While the folks behind this product seem smart enough, I'm always skeptical about using new cloud services, especially when they have a direct line to my PC. Rather than use their [Remote Access](https://jetkvm.com/docs/networking/remote-access) feature, I was happy to see that they also had a link in their FAQ pointing to an article on Medium called [Installing Tailscale on JetKVM](https://medium.com/@brandontuttle/installing-tailscale-on-a-jetkvm-3c72355b7eb0). This unfortunately did not work for me without some minor tweaks. 
+While the folks behind this product seem smart enough, I'm always skeptical about using new cloud services, especially when they have a direct line to my PC. Rather than use their [Remote Access](https://jetkvm.com/docs/networking/remote-access) feature, I was happy to see that they also had a link in their FAQ pointing to an article on Medium called [Installing Tailscale on JetKVM](https://medium.com/@brandontuttle/installing-tailscale-on-a-jetkvm-3c72355b7eb0). This unfortunately did not work for me without some minor tweaks.
+
 ### Getting Tailscale to start automatically
 
 Because JetKVM is built on top of busybox (for better or worse - worse IMHO), it lacks a modern init system. Other than being a good introduction for less experienced folks into how things used to be before systemd, it is a bit of a pain to work with.
@@ -72,6 +75,7 @@ case "$1" in
     ;;
 esac
 ```
+
 ## Orthogonal issue with non-persistent MAC address
 
 During the process of setting up my JetKVM, I noticed that I was getting a new IP every time the device restarted. The first thing I tried was to give in a static IP through my UniFi console, but was surprised when after a reboot I got yet another IP. This led to me finding this [GitHub issue](https://github.com/jetkvm/kvm/issues/375)that has a ton of activity on it. I suspect this will be fixed soon, but in the meantime, [this comment](https://github.com/jetkvm/kvm/issues/375#issuecomment-2832773429) had a solution that resolves the issue.

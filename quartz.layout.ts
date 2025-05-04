@@ -45,17 +45,17 @@ export const defaultContentPageLayout: PageLayout = {
   ],
   afterBody: [
     Component.Comments({
-      provider: 'giscus',
+      provider: "giscus",
       options: {
         // from data-repo
-        repo: 'shanemcd/shanemcd.github.io',
+        repo: "shanemcd/shanemcd.github.io",
         // from data-repo-id
-        repoId: 'R_kgDONkdtZA',
+        repoId: "R_kgDONkdtZA",
         // from data-category
-        category: 'Announcements',
+        category: "Announcements",
         // from data-category-id
-        categoryId: 'DIC_kwDONkdtZM4CpxTn',
-      }
+        categoryId: "DIC_kwDONkdtZM4CpxTn",
+      },
     }),
   ],
 };
