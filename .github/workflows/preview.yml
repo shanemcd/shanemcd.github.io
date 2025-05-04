@@ -24,15 +24,14 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout forked PR code
+      - name: Checkout merged PR code
         if: github.event.action != 'closed'
         uses: actions/checkout@v3
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
           fetch-depth: 0
 
-      - name: Checkout base branch (PR is closed)
+      - name: Checkout base branch (PR closed)
         if: github.event.action == 'closed'
         uses: actions/checkout@v3
         with:
