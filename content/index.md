@@ -21,4 +21,4 @@ continuing that mission.
 If you would like to connect, my email is on my
 [GitHub](https://github.com/shanemcd) profile.
 
-Have a nice day.
+Have a nice day 🌞
