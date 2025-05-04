@@ -10,7 +10,7 @@
     <link>https://shanemcd.com/posts/06-golang-debugging-on-fedora-atomic</link>
     <guid>https://shanemcd.com/posts/06-golang-debugging-on-fedora-atomic</guid>
     <description>A couple months ago, I tried to get Dape working with a Golang project and ran into a couple of problems that prevented me from being able to use it.</description>
-    <pubDate>Sun, 04 May 2025 19:25:21 GMT</pubDate>
+    <pubDate>Sun, 04 May 2025 19:31:05 GMT</pubDate>
   </item><item>
     <title>Obtaining root access in a pod running under kind on Podman</title>
     <link>https://shanemcd.com/posts/05-kind-podman-exec-as-root</link>
