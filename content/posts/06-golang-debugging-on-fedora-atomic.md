@@ -1,9 +1,13 @@
 ---
 title: Debuging a Golang project on a Fedora Atomic Desktop (with Emacs and Dape)
 ---
+
 A couple months ago, I tried to get [Dape](https://github.com/svaante/dape) working with a Golang project and ran into a couple of problems that prevented me from being able to use it. Today I decided to revisit it, and I'm glad I did, because it was one of the last remaining reasons I had for ever needing to open VSCode.
+
 ## First attempt at using Dape with a Golang project
+
 ### Problem 1 - passing arguments
+
 In the top-level of my repo, I created the file `.dir-locals.el` with the following content:
 
 ```lisp
@@ -108,15 +112,15 @@ go-debug-main :args ["build"]
 I then tried to update my `.dir-locals.el` with the bracket notation:
 
 ```diff
-diff --git a/.dir-locals.el b/.dir-locals.el  
-index 65e164b..9995c3a 100644  
---- a/.dir-locals.el  
-+++ b/.dir-locals.el  
-@@ -11,4 +11,4 @@  
-          :type "go"  
-          :showLog "true"  
-          :program "/home/shanemcd/github/GoogleContainerTools/skaffold/cmd/skaffold/skaffold.go"  
--          :args ("build")))))))  
+diff --git a/.dir-locals.el b/.dir-locals.el
+index 65e164b..9995c3a 100644
+--- a/.dir-locals.el
++++ b/.dir-locals.el
+@@ -11,4 +11,4 @@
+          :type "go"
+          :showLog "true"
+          :program "/home/shanemcd/github/GoogleContainerTools/skaffold/cmd/skaffold/skaffold.go"
+-          :args ("build")))))))
 +          :args ["build"]))))))
 ```
 
@@ -161,27 +165,27 @@ Detaching
 
 Now with the command invocation working, I proceeded with trying to set a breakpoint in the Skaffold code with `dape-breakpoint-toggle C-x C-a b`. Doing that and then re-running `dape`, I was surprised to see that the breakpoint did not hit as I was expecting.
 
-After describing my problem to ChatGPT, it inferred from our previous chats that I was using Fedora Kinoite, and it pointed out right away that symlinks (Fedora Atomic Desktops link `/home/` to `/var/home`) were known to cause problem in debuggers. After a quick search, that was easy to confirm after locating [this note](https://github.com/golang/vscode-go/blob/master/docs/debugging.md#debug-symlink-directories) in the `vscode-go` docs. I was able to get around this by setting `HOME` to the full path when in my `.dir-locals.el` 
+After describing my problem to ChatGPT, it inferred from our previous chats that I was using Fedora Kinoite, and it pointed out right away that symlinks (Fedora Atomic Desktops link `/home/` to `/var/home`) were known to cause problem in debuggers. After a quick search, that was easy to confirm after locating [this note](https://github.com/golang/vscode-go/blob/master/docs/debugging.md#debug-symlink-directories) in the `vscode-go` docs. I was able to get around this by setting `HOME` to the full path when in my `.dir-locals.el`
 
 ```diff
-diff --git a/.dir-locals.el b/.dir-locals.el  
-index 9995c3a..fba8c9f 100644  
---- a/.dir-locals.el  
-+++ b/.dir-locals.el  
-@@ -3,12 +3,12 @@  
-          modes (go-mode go-ts-mode)  
-          command "dlv"  
-          command-args ("dap" "--listen" "127.0.0.1:55878" "--log-dest" "/tmp/dlv.log")  
--          command-cwd "/home/shanemcd/github/GoogleContainerTools/skaffold/examples/simple-artifact-dependency"  
-+          command-cwd "/var/home/shanemcd/github/GoogleContainerTools/skaffold/examples/simple-artifact-dependency"  
-          host "127.0.0.1"  
-          port 55878  
-          :request "launch"  
-          :mode "debug"  
-          :type "go"  
-          :showLog "true"  
--          :program "/home/shanemcd/github/GoogleContainerTools/skaffold/cmd/skaffold/skaffold.go"  
-+          :program "/var/home/shanemcd/github/GoogleContainerTools/skaffold/cmd/skaffold/skaffold.go"  
+diff --git a/.dir-locals.el b/.dir-locals.el
+index 9995c3a..fba8c9f 100644
+--- a/.dir-locals.el
++++ b/.dir-locals.el
+@@ -3,12 +3,12 @@
+          modes (go-mode go-ts-mode)
+          command "dlv"
+          command-args ("dap" "--listen" "127.0.0.1:55878" "--log-dest" "/tmp/dlv.log")
+-          command-cwd "/home/shanemcd/github/GoogleContainerTools/skaffold/examples/simple-artifact-dependency"
++          command-cwd "/var/home/shanemcd/github/GoogleContainerTools/skaffold/examples/simple-artifact-dependency"
+          host "127.0.0.1"
+          port 55878
+          :request "launch"
+          :mode "debug"
+          :type "go"
+          :showLog "true"
+-          :program "/home/shanemcd/github/GoogleContainerTools/skaffold/cmd/skaffold/skaffold.go"
++          :program "/var/home/shanemcd/github/GoogleContainerTools/skaffold/cmd/skaffold/skaffold.go"
           :args ["build"]))))))
 ```
 
