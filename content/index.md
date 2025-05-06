@@ -11,7 +11,7 @@ I created this website to serve as a place where I can capture my thoughts, and
 to have a place where I can reflect on what I learn over the years. I spend a
 lot of my free time trying to find the balance between embracing cutting edge
 technology and living a simple life. Lately I have been trying avoid social
-media and attempting to maximize the time I spend thinking my own thoughts.
+media and attempting to maximize the time I spend thinking my own thoughts. If you are interested in what I've been up to, check out some of my recent [posts](posts/index.md). 
 
 I am a big fan of [Emacs](https://www.gnu.org/software/emacs/) and
 [Fedora](https://fedoraproject.org/), and I very much believe that open source

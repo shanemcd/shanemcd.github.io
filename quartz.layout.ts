@@ -16,7 +16,10 @@ export const sharedPageComponents: SharedLayout = {
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
-    Component.Breadcrumbs(),
+    Component.ConditionalRender({
+      component: Component.Breadcrumbs(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
@@ -24,19 +27,31 @@ export const defaultContentPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Search(),
-    Component.Darkmode(),
-    Component.DesktopOnly(
-      Component.RecentNotes({
-        title: "Recent Posts",
-        limit: 4,
-        filter: (f) =>
-          f.slug!.startsWith("posts/") &&
-          f.slug! !== "posts/index" &&
-          !f.frontmatter?.noindex,
-        linkToMore: "posts/" as SimpleSlug,
-      }),
-    ),
+    Component.Flex({
+      components: [
+        {
+          Component: Component.Search(),
+          grow: true,
+        },
+        { Component: Component.Darkmode() },
+        { Component: Component.ReaderMode() },
+      ],
+    }),
+    Component.ConditionalRender({
+      component: Component.DesktopOnly(
+        Component.RecentNotes({
+          title: "Recent Posts",
+          limit: 4,
+          filter: (f) =>
+            f.slug!.startsWith("posts/") &&
+            f.slug! !== "posts/index" &&
+            !f.frontmatter?.noindex,
+          linkToMore: "posts/" as SimpleSlug,
+        }),
+      ),
+      condition: (page) => page.fileData.slug === "index",
+    }),
+    
   ],
   right: [
     Component.Graph(),
@@ -70,9 +85,15 @@ export const defaultListPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Search(),
-    Component.Darkmode(),
-    Component.DesktopOnly(Component.Explorer({ folderClickBehavior: "link" })),
+    Component.Flex({
+      components: [
+        {
+          Component: Component.Search(),
+          grow: true,
+        },
+        { Component: Component.Darkmode() },
+      ],
+    }),
   ],
   right: [],
 };
