@@ -33,6 +33,8 @@ Here is my version of the init script that adds some basic logging and checks an
 ```bash
 #!/bin/sh
 log="/tmp/ts.log"
+tsdir="/userdata/tailscale/tailscale_1.82.5_arm"
+tspath="$tsdir/tailscale"
 
 echo "$(date): S22tailscale script starting with arg: $1" >> $log
 
@@ -57,13 +59,28 @@ wait_for_network() {
   return 1
 }
 
+wait_for_daemon_socket() {
+  for i in $(seq 1 20); do
+    if [ -S /var/run/tailscale/tailscaled.sock ]; then
+      echo "$(date): tailscaled socket ready" >> $log
+      return 0
+    fi
+    echo "$(date): waiting for tailscaled socket..." >> $log
+    sleep 1
+  done
+  echo "$(date): tailscaled socket did not appear in time" >> $log
+  return 1
+}
+
 case "$1" in
   start)
     wait_for_tun || exit 1
     wait_for_network || exit 1
     echo "$(date): Starting tailscaled..." >> $log
-    TS_DEBUG_FIREWALL_MODE=nftables /userdata/tailscale/tailscaled \
-      -statedir /userdata/tailscale-state >> $log 2>&1 &
+    nohup env TS_DEBUG_FIREWALL_MODE=nftables "$tsdir/tailscaled" \
+      -statedir /userdata/tailscale-state \
+      >> $log 2>&1 </dev/null &
+    wait_for_daemon_socket || exit 1
     ;;
   stop)
     echo "$(date): Stopping tailscaled..." >> $log
@@ -76,6 +93,22 @@ case "$1" in
 esac
 ```
 
+### Important: Use `nohup` for proper daemonization
+
+When running tailscaled via SSH (like when Ansible executes the init script), the daemon must be properly detached from the controlling terminal. Using `nohup` with stdin redirected from `/dev/null` ensures the process survives when the SSH session closes:
+
+```bash
+nohup env TS_DEBUG_FIREWALL_MODE=nftables "$tsdir/tailscaled" \
+  -statedir /userdata/tailscale-state \
+  >> $log 2>&1 </dev/null &
+```
+
+Without `nohup`, the backgrounded process receives a SIGHUP signal when the SSH session closes, causing it to exit. This is especially important when managing the daemon through configuration management tools like Ansible.
+
 ## Orthogonal issue with non-persistent MAC address
+
+
+> [!NOTE] Update on May 10, 2025
+> Looks like this has now been [fixed](https://github.com/jetkvm/kvm/issues/375#issuecomment-2851096657).
 
 During the process of setting up my JetKVM, I noticed that I was getting a new IP every time the device restarted. The first thing I tried was to give in a static IP through my UniFi console, but was surprised when after a reboot I got yet another IP. This led to me finding this [GitHub issue](https://github.com/jetkvm/kvm/issues/375)that has a ton of activity on it. I suspect this will be fixed soon, but in the meantime, [this comment](https://github.com/jetkvm/kvm/issues/375#issuecomment-2832773429) had a solution that resolves the issue.
