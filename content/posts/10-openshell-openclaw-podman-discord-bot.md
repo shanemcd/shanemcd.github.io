@@ -238,7 +238,7 @@ network_policies:
   discord_gateway:
     name: discord-gateway
     endpoints:
-      - host: gateway.discord.gg
+      - host: "*.discord.gg"
         port: 443
         protocol: websocket
         enforcement: enforce
@@ -327,6 +327,7 @@ A few things I ran into that aren't obvious:
 - **`/dev/null` must be in the filesystem policy's `read_write` list.** The NemoClaw startup script redirects to `/dev/null`, and Landlock blocks it by default. Without this, every shell initialization line fails with "Permission denied."
 - **OpenRouter models in OpenClaw use the format `openrouter/<author>/<slug>`**, not `openrouter:author/slug`. The colon-separated format causes OpenClaw to treat the model name as a filesystem path and crash with a "Bundled plugin dirName must be a single directory" error.
 - **After regenerating TLS certs, you must recreate sandboxes.** Running sandboxes have the old certs mounted and lose connectivity to the gateway. The supervisor can't fetch policy updates, so hot-reload stops working.
+- **Wildcard the Discord gateway hostname.** The policy needs `*.discord.gg`, not just `gateway.discord.gg`. Discord uses regional gateways like `gateway-us-east1-c.discord.gg` for reconnections, and the bot goes offline when the proxy denies the regional hostname.
 
 ## Source
 
