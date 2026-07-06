@@ -313,11 +313,11 @@ The `nemoclaw-start` entrypoint is important for OpenClaw. It handles privilege 
 
 ## Hermes Agent
 
-Hermes is a Python agent. The setup is simpler because Python's `httpx` (used by the OpenAI SDK) natively respects the transparent proxy without needing preload hacks.
+Hermes is a Python agent, and the setup turned out to be cleaner than OpenClaw. The key insight: use the unmodified NemoClaw Hermes base image and let OpenShell's inference routing and provider injection handle everything. No custom Containerfile needed.
 
 ### Building the image
 
-The NemoClaw base for Hermes:
+Just build the NemoClaw Hermes Dockerfile from source:
 
 ```bash
 podman build -t nemoclaw-hermes:latest \
@@ -325,53 +325,87 @@ podman build -t nemoclaw-hermes:latest \
   /tmp/nemoclaw-src
 ```
 
-Then a config layer using Hermes's native `config set` commands:
+That's it. No config layer. The base image ships with `model.base_url: https://inference.local/v1` and `api_key: sk-OPENSHELL-PROXY-REWRITE`, which is exactly what the OpenShell proxy expects. The proxy intercepts requests to `inference.local`, routes them to the configured provider (OpenRouter), and resolves the credential placeholder to the real API key at egress time.
 
-```dockerfile
-FROM localhost/nemoclaw-hermes:latest
+I spent hours trying to write a custom Containerfile that modified the Hermes config. Every approach broke NemoClaw's config integrity checks, which hash the config files at build time and verify them at startup. The security model is designed so that `nemoclaw-start` is the only thing that can modify config at runtime. Once I stopped fighting it and used the image as-is, everything just worked.
 
-USER root
-ENV HOME=/sandbox
+### Setting up inference routing
 
-RUN mkdir -p /sandbox/.hermes && \
-    hermes config set model.default anthropic/claude-sonnet-5 && \
-    hermes config set model.provider custom && \
-    hermes config set model.base_url https://openrouter.ai/api/v1 && \
-    hermes config set providers.custom.api https://openrouter.ai/api/v1 && \
-    hermes config set providers.custom.default_model anthropic/claude-sonnet-5 && \
-    hermes config set platforms.discord.enabled true && \
-    hermes config set discord.require_mention 1 && \
-    hermes config set discord.auto_thread true && \
-    hermes config set discord.reactions true
+Tell the OpenShell gateway to route `inference.local` to OpenRouter:
 
-# Remove api_key fields so the OpenAI SDK falls back to OPENAI_API_KEY env var
-RUN sed -i '/api_key:/d' /sandbox/.hermes/config.yaml
-
-RUN printf 'DISCORD_ALLOWED_USERS=YOUR_DISCORD_USER_ID\nDISCORD_ALLOW_ALL_USERS=false\n' \
-    > /sandbox/.hermes/.env
-
-RUN chown -R sandbox:sandbox /sandbox/.hermes
-
-USER sandbox
-WORKDIR /sandbox
+```bash
+openshell inference set \
+  --provider openrouter \
+  --model anthropic/claude-sonnet-5 \
+  --no-verify
 ```
 
-The `sed` to remove `api_key` lines is the key trick. The NemoClaw base bakes in `sk-OPENSHELL-PROXY-REWRITE` as a static placeholder that NemoClaw's own proxy would resolve, but the OpenShell proxy doesn't know about it. With no `api_key` in the config, the OpenAI SDK falls back to the `OPENAI_API_KEY` environment variable, which OpenShell injects as a credential placeholder. The proxy resolves that placeholder in the `Authorization: Bearer` header at egress time.
+This is a gateway-level setting, not per-sandbox. The sandbox's supervisor fetches the route bundle at startup and configures the local proxy to forward `inference.local` requests to OpenRouter with the right credentials.
+
+### Creating providers
+
+Hermes needs a few more providers than OpenClaw because the NemoClaw entrypoint validates env vars:
+
+```bash
+# Inference credentials (both env var names needed)
+openshell provider create --name openrouter --type openai \
+  --credential "OPENAI_API_KEY=$(secret-tool lookup service openshell key openrouter-api-key)" \
+  --credential "OPENROUTER_API_KEY=$(secret-tool lookup service openshell key openrouter-api-key)" \
+  --config "OPENAI_BASE_URL=https://openrouter.ai/api/v1"
+
+# Discord bot token
+openshell provider create --name discord --type generic \
+  --credential "DISCORD_BOT_TOKEN=$(secret-tool lookup service openshell key discord-bot-token)"
+
+# Dashboard auth key (NemoClaw refuses to start without one)
+openshell provider create --name hermes-dashboard --type generic \
+  --credential "API_SERVER_KEY=hermes-local-dashboard"
+
+# Discord user allowlist (passed as env var, not baked into the image)
+openshell provider create --name hermes-discord-config --type generic \
+  --credential "DISCORD_ALLOWED_USERS=YOUR_DISCORD_USER_ID" \
+  --credential "GATEWAY_ALLOW_ALL_USERS=false"
+```
 
 ### Creating the sandbox
 
 ```bash
 openshell sandbox create \
   --name hermes \
-  --from localhost/nemoclaw-hermes-configured:latest \
+  --from localhost/nemoclaw-hermes:latest \
   --provider openrouter \
   --provider discord \
+  --provider hermes-dashboard \
+  --provider hermes-discord-config \
   --policy policy.yaml \
   --no-tty \
-  -- hermes gateway run --force
+  -- /usr/local/bin/nemoclaw-start
 ```
 
-Unlike OpenClaw, Hermes can skip the `nemoclaw-start` entrypoint and run `hermes gateway run --force` directly. Python handles the transparent proxy correctly without preload scripts. The tradeoff is losing NemoClaw's privilege separation and config integrity checks, but for a personal Discord bot, the OpenShell sandbox provides more than enough isolation.
+This runs the full NemoClaw entrypoint: privilege separation, config integrity verification, gateway auth token minting, the Hermes gateway, the dashboard with socat forwarders, and the Discord bridge. No shortcuts, no hacks.
+
+### Pairing on Discord
+
+DM the bot on Discord. It will respond with a pairing code. Approve it by SSH-ing into the sandbox:
+
+```bash
+ssh -o ProxyCommand="openshell ssh-proxy --gateway-name tot --name hermes" \
+  -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR \
+  sandbox@openshell-hermes \
+  "hermes pairing approve discord <CODE>"
+```
+
+Regular `podman exec` won't work because it enters the container's root namespace, not the sandbox's network namespace where the Hermes gateway is running. The OpenShell SSH relay goes through the supervisor, which puts you in the right namespace.
+
+### Dashboard
+
+Forward the dashboard port:
+
+```bash
+openshell forward start -d 18789 hermes
+```
+
+Then open http://127.0.0.1:18789/ in your browser.
 
 ## What it looks like running
 
@@ -401,7 +435,9 @@ A few things I ran into that aren't obvious:
 - **OpenRouter models in OpenClaw use the format `openrouter/<author>/<slug>`**, not `openrouter:author/slug`. The colon-separated format causes OpenClaw to treat the model name as a filesystem path and crash with a "Bundled plugin dirName must be a single directory" error.
 - **After regenerating TLS certs, you must recreate sandboxes.** Running sandboxes have the old certs mounted and lose connectivity to the gateway. The supervisor can't fetch policy updates, so hot-reload stops working.
 - **Wildcard the Discord gateway hostname.** The policy needs `*.discord.gg`, not just `gateway.discord.gg`. Discord uses regional gateways like `gateway-us-east1-c.discord.gg` for reconnections, and the bot goes offline when the proxy denies the regional hostname.
-- **Hermes needs `api_key` fields removed from config, not set to empty.** The NemoClaw base bakes in a static proxy placeholder. Empty string makes the OpenAI SDK send an empty Bearer token. Removing the field entirely makes it fall back to the `OPENAI_API_KEY` env var, which OpenShell injects as a resolvable placeholder.
+- **Don't customize the Hermes config at build time.** NemoClaw hashes `config.yaml` and `.env` at build time and verifies them at startup. If you modify the config in a layered Containerfile, the hashes won't match and `nemoclaw-start` will refuse to run. Use the unmodified base image and configure everything through OpenShell providers, inference routing, and env var injection.
+- **Set inference routing before creating the sandbox.** The sandbox fetches the inference route bundle once at startup. If you set `openshell inference set` after the sandbox is already running, it won't pick up the route. Recreate the sandbox after changing inference config.
+- **Use the SSH relay for in-sandbox CLI commands, not `podman exec`.** `podman exec` enters the container's root namespace, not the sandbox's network namespace. Commands like `hermes pairing approve` need to talk to the running gateway process, which is inside the restricted namespace. Use `openshell ssh-proxy` to get into the right namespace.
 - **One Discord bot token, one consumer.** If you run both agents with the same bot token, only the last one to connect will receive messages. Use a separate bot token per agent if you want both online simultaneously.
 
 ## Source
