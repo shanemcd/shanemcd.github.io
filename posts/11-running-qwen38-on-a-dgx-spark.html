@@ -159,33 +159,34 @@ pre:hover > .expand-button {
 <span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Volume</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">=%h/.local/share/models/qwen3.8-27b-fp8:/models:ro</span></span>
 <span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Volume</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">=%h/.cache/qwen38-sglang:/root/.cache</span></span>
 <span data-line> </span>
-<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Exec</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">=python3 -m sglang.launch_server \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --model-path /models \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --trust-remote-code \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --tp-size 1 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --served-model-name qwen3.8-27b-fp8 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --host 0.0.0.0 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --port 30000 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --mem-fraction-static 0.50 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --max-running-requests 2 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --context-length 262144 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --chunked-prefill-size 8192 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --attention-backend flashinfer \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --disable-prefill-cuda-graph \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --cuda-graph-max-bs 4 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --disable-flashinfer-autotune \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --enable-torch-compile \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --torch-compile-max-bs 4 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --reasoning-parser qwen3 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --tool-call-parser qwen3_coder \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --speculative-algorithm DFLASH \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --speculative-draft-model-path z-lab/Qwen3.8-27B-DFlash2 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --speculative-draft-model-revision 50307d4c4cde6860d4eee73e2547cd786fe8e8a4 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --speculative-num-draft-tokens 8 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --speculative-draft-model-quantization unquant \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --mamba-radix-cache-strategy extra_buffer \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --mamba-ssm-dtype bfloat16 \</span></span>
-<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    --max-mamba-cache-size 10</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Exec</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">=/bin/sh -c </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">'exec python3 -m sglang.launch_server \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --model-path /models \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --trust-remote-code \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --tp-size 1 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --served-model-name qwen3.8-27b-fp8 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --host 0.0.0.0 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --port 30000 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --mem-fraction-static 0.50 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --max-running-requests 2 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --context-length 262144 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --chunked-prefill-size 8192 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --attention-backend flashinfer \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --disable-prefill-cuda-graph \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --cuda-graph-max-bs 4 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --disable-flashinfer-autotune \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --enable-torch-compile \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --torch-compile-max-bs 4 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --reasoning-parser qwen3 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --tool-call-parser qwen3_coder \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --speculative-algorithm DFLASH \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --speculative-draft-model-path z-lab/Qwen3.8-27B-DFlash2 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --speculative-draft-model-revision 50307d4c4cde6860d4eee73e2547cd786fe8e8a4 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --speculative-num-draft-tokens 6 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --speculative-draft-model-quantization unquant \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --mamba-radix-cache-strategy extra_buffer \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --mamba-ssm-dtype bfloat16 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --max-mamba-cache-size 10 \</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    --api-key &quot;$$(cat /run/secrets/qwen38-api)&quot;'</span></span>
 <span data-line> </span>
 <span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">[Service]</span></span>
 <span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Restart</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">=on-failure</span></span>
