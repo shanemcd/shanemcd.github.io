@@ -71,7 +71,7 @@ Secret=qwen38-api,target=/run/secrets/qwen38-api,type=mount
 Volume=%h/.local/share/models/qwen3.8-27b-fp8:/models:ro
 Volume=%h/.cache/qwen38-sglang:/root/.cache
 
-Exec=python3 -m sglang.launch_server \
+Exec=/bin/sh -c 'exec python3 -m sglang.launch_server \
     --model-path /models \
     --trust-remote-code \
     --tp-size 1 \
@@ -93,11 +93,12 @@ Exec=python3 -m sglang.launch_server \
     --speculative-algorithm DFLASH \
     --speculative-draft-model-path z-lab/Qwen3.8-27B-DFlash2 \
     --speculative-draft-model-revision 50307d4c4cde6860d4eee73e2547cd786fe8e8a4 \
-    --speculative-num-draft-tokens 8 \
+    --speculative-num-draft-tokens 6 \
     --speculative-draft-model-quantization unquant \
     --mamba-radix-cache-strategy extra_buffer \
     --mamba-ssm-dtype bfloat16 \
-    --max-mamba-cache-size 10
+    --max-mamba-cache-size 10 \
+    --api-key "$$(cat /run/secrets/qwen38-api)"'
 
 [Service]
 Restart=on-failure
